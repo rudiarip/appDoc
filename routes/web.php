@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PasienController;
 
@@ -25,3 +26,6 @@ Route::get('/pasien/{id}', [PasienController::class, 'show'])->name('pasien.show
 Route::put('/pasien/{id}', [PasienController::class, 'update'])->name('pasien.update');
 Route::patch('/pasien/{id}', [PasienController::class, 'update']);
 Route::delete('/pasien/{id}', [PasienController::class, 'destroy'])->name('pasien.destroy');
+
+
+Route::get('dashboard', [DashboardController::class, 'index'])->name('index');
