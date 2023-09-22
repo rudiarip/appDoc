@@ -29,3 +29,11 @@ Route::delete('/pasien/{id}', [PasienController::class, 'destroy'])->name('pasie
 
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('index');
+
+Route::group([
+    'prefix' => 'patients',
+    'as' => 'patient.',
+], function () {
+    Route::view('/x', 'pasien.index')->name('index');
+    Route::view('/', 'pasien.add')->name('add');
+});
