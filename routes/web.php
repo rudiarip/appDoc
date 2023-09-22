@@ -34,6 +34,6 @@ Route::group([
     'prefix' => 'patients',
     'as' => 'patient.',
 ], function () {
-    Route::view('/x', 'pasien.index')->name('index');
-    Route::view('/', 'pasien.add')->name('add');
 });
+Route::view('patients', 'pasien.index')->name('patient.index');
+Route::view('add', 'pasien.add')->name('patient.add');
