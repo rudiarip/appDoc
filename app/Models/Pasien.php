@@ -9,11 +9,6 @@ use Illuminate\Database\Eloquent\softDeletes;
 class Pasien extends Model
 {
     use HasFactory, softDeletes;
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'no_kartu',
         'no_hp',
