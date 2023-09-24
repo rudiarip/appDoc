@@ -16,7 +16,7 @@ use App\Http\Controllers\PasienDetailController;
 |
 */
 
-Route::get('/', fn () =>  to_route('patient.index'));
+Route::get('/', fn () =>  to_route('detail.index'));
 //Route::resource('pasien', PasienController::class);
 
 // Route::get('/pasien', [PasienController::class, 'index'])->name('pasien.index');
