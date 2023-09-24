@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\PasiensDataTable;
 use Illuminate\Http\Request;
 use App\Models\Pasien;
 use App\Models\PasienDetail;
 
 class PasienController extends Controller
 {
-    public function index()
+    public function index(PasiensDataTable $dataTables)
     {
-        $pasien = Pasien::all();
-        return response()->json($pasien);
+        return $dataTables->render("pasien.index");
     }
 
     public function store(Request $request)

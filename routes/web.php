@@ -33,5 +33,5 @@ Route::group([
     'as' => 'patient.',
 ], function () {
 });
-Route::view('patients', 'pasien.index')->name('patient.index');
-Route::view('add', 'pasien.add')->name('patient.add');
+// Route::view('patients', 'pasien.index')->name('patient.index');
+// Route::view('add', 'pasien.add')->name('patient.add');
