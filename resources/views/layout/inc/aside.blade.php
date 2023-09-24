@@ -70,7 +70,7 @@
         <!-- Components -->
         <!-- Cards -->
         <li class="menu-item">
-            <a href="{{ route('patient.index') }}#" class="menu-link">
+            <a href="{{ route('pasien.index') }}#" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-collection"></i>
                 <div data-i18n="Basic">pasien</div>
             </a>
