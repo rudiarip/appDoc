@@ -13,6 +13,8 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
+use function Laravel\Prompts\alert;
+
 class PasienDetailsDataTable extends DataTable
 {
     /**
@@ -42,7 +44,7 @@ class PasienDetailsDataTable extends DataTable
     {
         return $model->newQuery()
             ->leftJoin('pasiens as p', 'p.id', '=', 'pasien_details.id_pasien')
-            ->select('p.*', 'pasien_details.nama', 'pasien_details.tgl_lahir');
+            ->select('p.*', 'pasien_details.nama', 'pasien_details.tgl_lahir', 'pasien_details.id as id_det');
     }
 
     /**
@@ -99,8 +101,9 @@ class PasienDetailsDataTable extends DataTable
     }
     private function addElement(array | object  $attr): string
     {
+        
         $groupBtn = '<div class="d-flex justify-content-between">{child}</div>';
-        $actionBtn = '<a href="pasien/' . $attr->id . '" class="edit btn btn-success btn-sm">Edit</a> <a href="pasien/' . $attr->id . '" class="delete btn btn-danger btn-sm">Delete</a>';
+        $actionBtn = '<a href="pasien/' . $attr->id_det . '" class="edit btn btn-success btn-sm">Edit</a> <a href="pasien/' . $attr->id_det . '" class="delete btn btn-danger btn-sm">Delete</a>';
         return str_replace("{child}", $actionBtn, $groupBtn);
     }
 }
