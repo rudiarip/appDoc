@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('pasien_details', function (Blueprint $table) {
             $table->id();
-
-            $table->bigInteger('id_pasien');
+            $table->foreignId('id_pasien')->constrained('pasiens');
             $table->string('nama');
             $table->date('tgl_lahir');
-
             $table->softDeletes();
             $table->timestamps();
         });

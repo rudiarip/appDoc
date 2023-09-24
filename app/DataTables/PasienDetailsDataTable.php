@@ -2,17 +2,18 @@
 
 namespace App\DataTables;
 
+use App\Models\PasienDetail;
 use App\Models\Pasien;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-// use Yajra\DataTables\Html\Editor\Editor;
-// use Yajra\DataTables\Html\Editor\Fields;
+use Yajra\DataTables\Html\Editor\Editor;
+use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class PasiensDataTable extends DataTable
+class PasienDetailsDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -24,24 +25,24 @@ class PasiensDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('action', fn ($row) =>  $this->addElement($row))
-            ->addColumn('nama', function ($row) {
-                return $row->pasienDetail()->get();
-            })
-            ->addColumn('tgl_lahir', fn ($row) => $this->addElement($row))
-            ->addColumn('created_at', fn ($row) => \Carbon\Carbon::parse($row->created_at)->diffForHumans())
-
+            ->addColumn('nama', fn (PasienDetail $row) => $row->nama)
+            ->addColumn('tgl_lahir', fn ($row) => $row->tgl_lahir)
+            ->addColumn('no_kartu', fn ($row) => $row["no_kartu"])
+            ->addColumn('alamat', fn ($row) => $row["alamat"])
+            ->addColumn('no_hp', fn ($row) => $row["no_hp"])
+            ->rawColumns(['alamat', 'no_kartu', 'no_hp', 'action'])
             ->setRowAttr(["class" => "text-dark h6"])
-
-            ->rawColumns(['action'])
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Pasien $model): QueryBuilder
+    public function query(PasienDetail $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()
+            ->leftJoin('pasiens as p', 'p.id', '=', 'pasien_details.id_pasien')
+            ->select('p.*', 'pasien_details.nama', 'pasien_details.tgl_lahir');
     }
 
     /**
@@ -50,7 +51,7 @@ class PasiensDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('pasiens-table')
+            ->setTableId('pasien-detail')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
@@ -72,19 +73,20 @@ class PasiensDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+
+            // Column::make('id'),
+            Column::make('no_kartu'),
+            Column::make('nama'),
+            Column::make('alamat'),
+            Column::make('no_hp')->width(100),
+            Column::make('tgl_lahir')->width(100),
+            // Column::make('created_at'),
+            // Column::make('updated_at'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
-                ->addClass('text-center text-dark'),
-            Column::make('id'),
-            Column::make('no_kartu'),
-            Column::make('nama'),
-            Column::make('tgl_lahir'),
-            Column::make('no_hp'),
-            Column::make('alamat'),
-            Column::make('created_at'),
-            // Column::make('updated_at'),
+                ->addClass('text-center'),
         ];
     }
 
@@ -93,12 +95,11 @@ class PasiensDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Pasiens_' . date('YmdHis');
+        return 'PasienDetails_' . date('YmdHis');
     }
-
     private function addElement(array | object  $attr): string
     {
-        $groupBtn = '<div class="btn-group">{child}</div>';
+        $groupBtn = '<div class="d-flex justify-content-between">{child}</div>';
         $actionBtn = '<a href="pasien/' . $attr->id . '" class="edit btn btn-success btn-sm">Edit</a> <a href="pasien/' . $attr->id . '" class="delete btn btn-danger btn-sm">Delete</a>';
         return str_replace("{child}", $actionBtn, $groupBtn);
     }

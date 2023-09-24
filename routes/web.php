@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PasienController;
+use App\Http\Controllers\PasienDetailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +19,7 @@ use App\Http\Controllers\PasienController;
 Route::get('/', fn () =>  to_route('patient.index'));
 //Route::resource('pasien', PasienController::class);
 
-Route::get('/pasien', [PasienController::class, 'index'])->name('pasien.index');
+// Route::get('/pasien', [PasienController::class, 'index'])->name('pasien.index');
 Route::post('/pasien', [PasienController::class, 'store'])->name('pasien.store');
 Route::get('/pasien/{id}', [PasienController::class, 'show'])->name('pasien.show');
 Route::put('/pasien/{id}', [PasienController::class, 'update'])->name('pasien.update');
@@ -35,3 +36,15 @@ Route::group([
 });
 // Route::view('patients', 'pasien.index')->name('patient.index');
 // Route::view('add', 'pasien.add')->name('patient.add');
+
+Route::controller(PasienDetailController::class)
+    ->as('detail.')
+    ->group(function () {
+        Route::get('pasien', 'index')->name('index');
+        Route::get('detail/create', 'create')->name('create');
+        Route::post('detail', 'store')->name('store');
+        Route::get('detail/{id}/edit', 'edit')->name('edit');
+        Route::put('detail/{id}', 'update')->name('update');
+        Route::patch('detail/{id}', 'update')->name('update');
+        Route::delete('detail/{id}', 'destroy')->name('destroy');
+    });
