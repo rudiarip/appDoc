@@ -14,8 +14,9 @@ class Pasien extends Model
         'no_hp',
         'alamat',
     ];
+    protected $with = ['pasienDetail'];
 
-    public function pasiensDetails()
+    public function pasienDetail()
     {
         return $this->hasMany(PasienDetail::class, 'id_pasien', 'id');
     }
