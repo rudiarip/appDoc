@@ -25,6 +25,7 @@ Route::get('/pasien/{id}', [PasienController::class, 'show'])->name('pasien.show
 Route::put('/pasien/{id}', [PasienController::class, 'update'])->name('pasien.update');
 Route::patch('/pasien/{id}', [PasienController::class, 'update']);
 Route::delete('/pasien/{id}', [PasienController::class, 'destroy'])->name('pasien.destroy');
+Route::delete('/pasien/delete/{id}', [PasienController::class, 'destroy'])->name('pasien.delete');
 
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('index');
