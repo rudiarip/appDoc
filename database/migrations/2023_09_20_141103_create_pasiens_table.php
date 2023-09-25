@@ -17,7 +17,6 @@ return new class extends Migration
             $table->bigInteger('no_kartu');
             $table->string('no_hp');
             $table->text('alamat');
-
             $table->softDeletes();
             $table->timestamps();
         });

@@ -25,7 +25,7 @@ class PasienDetailsDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('action', fn ($row) =>  $this->addElement($row))
-            ->addColumn('nama', fn (PasienDetail $row) => $row->nama)
+            ->addColumn('nama', fn (PasienDetail $row) => $row["nama"])
             ->addColumn('tgl_lahir', fn ($row) => $row->tgl_lahir)
             ->addColumn('no_kartu', fn ($row) => $row["no_kartu"])
             ->addColumn('alamat', fn ($row) => $row["alamat"])
@@ -42,7 +42,7 @@ class PasienDetailsDataTable extends DataTable
     {
         return $model->newQuery()
             ->leftJoin('pasiens as p', 'p.id', '=', 'pasien_details.id_pasien')
-            ->select('p.*', 'pasien_details.nama', 'pasien_details.tgl_lahir');
+            ->select('p.*', 'pasien_details.nama', 'pasien_details.tgl_lahir', 'pasien_details.id as id_detail');
     }
 
     /**
@@ -99,8 +99,10 @@ class PasienDetailsDataTable extends DataTable
     }
     private function addElement(array | object  $attr): string
     {
-        $groupBtn = '<div class="d-flex justify-content-between">{child}</div>';
-        $actionBtn = '<a href="pasien/' . $attr->id . '" class="edit btn btn-success btn-sm">Edit</a> <a href="pasien/' . $attr->id . '" class="delete btn btn-danger btn-sm">Delete</a>';
-        return str_replace("{child}", $actionBtn, $groupBtn);
+        $id_detail = $attr["id_detail"];
+        $deleteBtn = '<button type="button" data-id="' . $id_detail . '" class="delete-pasien btn btn-danger btn-sm">Delete</button>';
+        $editBtn = '<button data-id="' . $id_detail . '" class="edit-pasien btn btn-success btn-sm">Edit</button>';
+        $groupBtn = '<div class="d-flex justify-content-between">' . $editBtn . $deleteBtn . '</div>';
+        return $groupBtn;
     }
 }

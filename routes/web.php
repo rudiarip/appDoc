@@ -22,7 +22,7 @@ Route::get('/', fn () =>  to_route('detail.index'));
 // Route::get('/pasien', [PasienController::class, 'index'])->name('pasien.index');
 Route::post('/pasien', [PasienController::class, 'store'])->name('pasien.store');
 Route::get('/pasien/{id}', [PasienController::class, 'show'])->name('pasien.show');
-Route::put('/pasien/{id}', [PasienController::class, 'update'])->name('pasien.update');
+Route::post('/pasien/{id}/edit', [PasienController::class, 'update'])->name('pasien.update');
 Route::patch('/pasien/{id}', [PasienController::class, 'update']);
 Route::delete('/pasien/{id}', [PasienController::class, 'destroy'])->name('pasien.destroy');
 

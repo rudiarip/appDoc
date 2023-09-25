@@ -26,6 +26,8 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+
+
             $("#add-pasien").on('submit', function(e) {
                 e.preventDefault();
                 $.ajax({
@@ -46,7 +48,9 @@
                     }
                 })
             })
+
+            {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+
         })
     </script>
-    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush
