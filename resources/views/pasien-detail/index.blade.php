@@ -126,12 +126,12 @@
                     width: 300,
                     allowOutsideClick: false
                 }).then((res) => {
-                    if (!res.isDenied) {
+                    if (res.isConfirmed) {
                         $.ajax({
                             url: `detail/${id}`,
                             method: "delete",
                             success: function(res) {
-                                reloadData()
+                                // reloadData()
                                 toastr.success(res.message)
                             },
                             error: function({
