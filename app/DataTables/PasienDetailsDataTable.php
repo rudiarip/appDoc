@@ -13,6 +13,8 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
+use function Laravel\Prompts\alert;
+
 class PasienDetailsDataTable extends DataTable
 {
     /**
@@ -97,6 +99,7 @@ class PasienDetailsDataTable extends DataTable
     {
         return 'PasienDetails_' . date('YmdHis');
     }
+
     private function addElement(array | object  $attr): string
     {
         $id_detail = $attr["id_detail"];

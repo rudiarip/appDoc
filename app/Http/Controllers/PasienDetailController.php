@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\PasienDetailsDataTable;
+
+use App\Models\Pasien;
 use App\Models\PasienDetail;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
