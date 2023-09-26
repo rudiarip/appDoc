@@ -15,14 +15,19 @@ class PasienController extends Controller
     //     return $dataTables->render("pasien.index");
     // }
 
+    public function addNew(Request $request)
+    {
+    }
     public function store(Request $request)
     {
         $validate = Validator::make(
-            $request->only(['no_kartu', 'alamat', 'no_hp']),
+            $request->only(['no_kartu', 'alamat', 'no_hp', 'nama', 'tgl_lahir']),
             [
                 'no_kartu' => 'required',
                 'no_hp' => 'required',
                 'alamat' => 'required',
+                'nama' => 'required',
+                'tgl_lahir' => 'required',
             ],
         );
         if ($validate->fails()) {
@@ -39,7 +44,12 @@ class PasienController extends Controller
             'alamat' => $request->alamat,
             'no_hp' => $request->no_hp,
         ]);
-        if ($pasien) {
+        $pasien_detail = $pasien->pasienDetail()->create([
+            'nama' => $request->nama,
+            'tgl_lahir' => $request->tgl_lahir
+        ]);
+
+        if ($pasien && $pasien_detail) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Data berhasil ditambahkan',

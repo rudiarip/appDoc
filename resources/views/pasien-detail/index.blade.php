@@ -179,6 +179,7 @@
                     },
                     success: function(res) {
                         $(e.target)[0].reset();
+                        reloadData()
                         hideModal('backDropModal').fadeOut(1000)
                         toastr.success(res.message)
                     },
@@ -192,64 +193,7 @@
                     }
                 })
             })
-            $(document).on('click', "button.detail-pasien", function(e) {
-                e.preventDefault();
-                const id = $(this).attr('data-id-pasien');
-                $.ajax({
-                    url: `pasien/${id}/detail`,
-                    method: "get",
-                    success: function(res) {
-                        const pasien = Object.entries(res.data)
-                        showModal({
-                            idName: 'detailModal',
-                            title: 'Detail Data Pasien'
-                        })
-                        $.each(pasien, function(idx, val) {
-                            const [key, value] = val;
-                            const x = $('#' + key).val(value);
-                            const element = $('#detailModal .modal-input#' + key);
-                            element.val(value);
 
-                            if (typeof value == "object" && Array.isArray(value)) {
-                                // Loop melalui array pasien
-                                var detail = "";
-                                value.forEach(function(pasien, index) {
-                                    console.log(pasien)
-                                    // Buat elemen input untuk nama
-                                    var inputNama = "";
-                                    inputNama +=
-                                        '<input type="text" id="nama_' + index +
-                                        '" value="' + pasien.nama +
-                                        '" class="form-control">';
-
-                                    // Buat elemen input untuk tanggal lahir
-                                    var inputTanggalLahir = ""
-                                    inputTanggalLahir +=
-                                        '<input type="text" id="tgl_lahir_' +
-                                        index + '" value="' + pasien.tgl_lahir +
-                                        '" class="form-control">';
-
-                                    detail += `
-                                        <div class="d-flex">
-                                            ${inputNama}
-                                            ${inputTanggalLahir}
-                                        </div>
-                                        `;
-
-
-                                });
-                                $("#all-pasien").html(detail)
-                            }
-                        })
-                    },
-                    error: function({
-                        responseJSON,
-                        responseText
-                    }) {
-                        toastr.error(responseJSON.message)
-                    },
-                })
-            })
         })
     </script>
 @endpush

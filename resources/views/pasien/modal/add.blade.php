@@ -25,6 +25,21 @@
                 </div>
                 <div class="row">
                     <div class="col mb-3">
+                        <label for="nama" class="form-label">Nama</label>
+                        <input type="text" id="nama" name="nama" class="form-control"
+                            placeholder="Enter nama">
+                        <div id="defaultFormControlHelp" class="form-text text-danger text-error error_nama"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="tgl_lahir" class="form-label">Tanggal Lahir</label>
+                        <input type="date" id="tgl_lahir" name="tgl_lahir" class="form-control" placeholder="">
+                        <div id="defaultFormControlHelp" class="form-text text-danger text-error error_tgl_lahir"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mb-3">
                         <label for="alamat" class="form-label">Alamat</label>
                         <textarea name="alamat" placeholder="Enter..." class=" form-control" id="alamat" cols="15" rows="4"></textarea>
                         <div id="defaultFormControlHelp" class="form-text text-danger text-error error_alamat"></div>

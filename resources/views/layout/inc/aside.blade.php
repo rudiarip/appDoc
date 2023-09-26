@@ -2,7 +2,7 @@
     <div class="app-brand demo">
         <a href="#" class="app-brand-link">
             <span class="app-brand-logo demo">
-                <img src="./logo/logo.png" alt="logo" width="40">
+                <img src="/logo/logo.png" alt="logo" width="40">
             </span>
             <span class="app-brand-text text-uppercase demo menu-text fw-bolder ms-2">App Doc</span>
         </a>
@@ -22,8 +22,7 @@
         <!-- Components -->
         <!-- Cards -->
         <li class="menu-item">
-            {{-- {{ route('patient.index') }}# --}}
-            <a href="" class="menu-link">
+            <a href="{{ route('detail.index') }}#" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-collection"></i>
                 <div data-i18n="Basic">pasien</div>
             </a>

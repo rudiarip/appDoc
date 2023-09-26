@@ -45,9 +45,11 @@ Route::controller(PasienDetailController::class)
         Route::get('pasien', 'index')->name('index');
         Route::get('detail/{id}', 'show')->name('show');
         Route::get('detail/create', 'create')->name('create');
-        Route::post('detail', 'store')->name('store');
+        // Route::post('detail', 'store')->name('store');
+        Route::post('detail/{pasien}', 'store')->name('store');
         Route::get('detail/{id}/edit', 'edit')->name('edit');
         Route::put('detail/{id}', 'update')->name('update');
         Route::patch('detail/{id}', 'update')->name('update');
         Route::delete('detail/{id}', 'destroy')->name('destroy');
+        Route::get('view-detail/{id}', 'viewDetail')->name('view-detail');
     });

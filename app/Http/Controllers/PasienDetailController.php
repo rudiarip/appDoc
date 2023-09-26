@@ -7,6 +7,7 @@ use App\DataTables\PasienDetailsDataTable;
 use App\Models\Pasien;
 use App\Models\PasienDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 
@@ -15,6 +16,43 @@ class PasienDetailController extends Controller
     public function index(PasienDetailsDataTable $dt)
     {
         return $dt->render('pasien-detail.index');
+    }
+
+    public function store(Request $request, Pasien $pasien)
+    {
+        $validate = Validator::make(
+            $request->only(['nama', 'tgl_lahir']),
+            [
+                'nama' => 'required',
+                'tgl_lahir' => 'required',
+            ],
+        );
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => 'fail',
+                'errors' => $validate->errors()->toArray(),
+                'message' => 'payload is not suitable',
+                'code' => 422
+            ], 422);
+        }
+
+        $pasien_detail = $pasien->pasienDetail()->create([
+            'nama' => $request->nama,
+            'tgl_lahir' => $request->tgl_lahir
+        ]);
+
+        if ($pasien_detail) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data berhasil ditambahkan',
+                'code' => 201
+            ], 201);
+        }
+        return response()->json([
+            'status' => 'fail',
+            'message' => 'Internal Server Error',
+            'code' => 500
+        ], 500);
     }
 
     public function show($id)
@@ -89,5 +127,12 @@ class PasienDetailController extends Controller
             "message" => "Data berhasil dihapus",
             "code"    => 200
         ], 200);
+    }
+
+    public function viewDetail($id)
+    {
+        return view('pasien-detail.detail', [
+            "id" => $id
+        ]);
     }
 }

@@ -107,7 +107,7 @@ class PasienDetailsDataTable extends DataTable
         $id_detail = $attr["id_detail"];
         $deleteBtn = '<button type="button" data-id="' . $id_detail . '" class="delete-pasien btn btn-danger btn-sm">Delete</button>';
         $editBtn = '<button data-id="' . $id_detail . '" class="edit-pasien btn btn-success btn-sm">Edit</button>';
-        $detailBtn = '<button data-id="' . $id_detail . '" data-id-pasien="' . $attr["id"] . '" class="detail-pasien btn btn-warning btn-sm">Detail</button>';
+        $detailBtn = '<a href="' . route('detail.view-detail', $attr["id"]) . '" data-id="' . $id_detail . '" data-id-pasien="' . $attr["id"] . '" class="detail-pasien btn btn-warning btn-sm">Detail</a>';
         $groupBtn = '<div class="d-flex justify-content-between">' . $detailBtn . $editBtn . $deleteBtn . '</div>';
         return $groupBtn;
     }
