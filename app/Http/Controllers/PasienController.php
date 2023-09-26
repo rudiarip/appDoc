@@ -67,6 +67,20 @@ class PasienController extends Controller
             'data' => $pasien,
         ]);
     }
+    public function detail($id)
+    {
+        $pasien = Pasien::find($id);
+        if (!$pasien) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'Data tidak ditemukan'
+            ], 404);
+        }
+        return response()->json([
+            'status' => 'success',
+            'data' => $pasien,
+        ]);
+    }
 
     public function update(Request $request, $id)
     {

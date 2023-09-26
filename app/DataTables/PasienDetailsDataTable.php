@@ -25,6 +25,7 @@ class PasienDetailsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->startsWithSearch()
             ->addIndexColumn()
             ->addColumn('action', fn ($row) =>  $this->addElement($row))
             ->addColumn('nama', fn (PasienDetail $row) => $row["nama"])
@@ -59,6 +60,7 @@ class PasienDetailsDataTable extends DataTable
             ->dom('Bfrtip')
             ->orderBy(1)
             ->selectStyleSingle()
+            ->searching(true)
             ->buttons([
                 Button::make('excel'),
                 Button::make('csv'),
@@ -105,7 +107,8 @@ class PasienDetailsDataTable extends DataTable
         $id_detail = $attr["id_detail"];
         $deleteBtn = '<button type="button" data-id="' . $id_detail . '" class="delete-pasien btn btn-danger btn-sm">Delete</button>';
         $editBtn = '<button data-id="' . $id_detail . '" class="edit-pasien btn btn-success btn-sm">Edit</button>';
-        $groupBtn = '<div class="d-flex justify-content-between">' . $editBtn . $deleteBtn . '</div>';
+        $detailBtn = '<button data-id="' . $id_detail . '" data-id-pasien="' . $attr["id"] . '" class="detail-pasien btn btn-warning btn-sm">Detail</button>';
+        $groupBtn = '<div class="d-flex justify-content-between">' . $detailBtn . $editBtn . $deleteBtn . '</div>';
         return $groupBtn;
     }
 }

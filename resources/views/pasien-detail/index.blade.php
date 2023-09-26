@@ -12,7 +12,6 @@
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Pasien</h4>
         <div class="row">
             <div class="col-2">
-
                 <button type="button" id="open-modal" class="btn btn-primary" data-bs-toggle="modal"
                     data-bs-target="#backDropModal">Add
                     Data</button>
@@ -24,16 +23,13 @@
         <!--/ Basic Bootstrap Table -->
 
     </div>
+    @include('pasien.modal.detail')
+    @include('pasien.modal.edit')
     @include('pasien.modal.add')
 @endsection
 @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        window.addEventListener('deletePost', function(e) {
-
-        })
-    </script>
     <script>
         const reloadData = () => {
             window.LaravelDataTables["pasien-detail"].ajax.reload();
@@ -49,6 +45,8 @@
             if (title) {
                 modal.find('.modal-title').text(title)
             }
+            // $(modal).find("span.error-text").text("");
+
             return modal
         }
 
@@ -64,18 +62,42 @@
                 const form = $(targetModal + " " + 'form')
                 form[0].reset();
                 const formInputs = $(form).find('input');
-                formInputs.each(function() {
-                    if ($(this).attr('readonly')) {
-                        $(this).attr('readonly', false)
+            })
+
+            $("form#edit-pasien").on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: $(this).attr('method'),
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    data: new FormData(e.target),
+                    beforeSend: function(res) {
+                        $(e.target).find("span.error-text").text("");
+                    },
+                    success: function(res) {
+                        $(e.target)[0].reset();
+                        reloadData()
+                        hideModal('editModal').fadeOut(1000)
+                        toastr.success(res.message)
+                    },
+                    error: function({
+                        responseJSON,
+                        responseText
+                    }) {
+                        $.each(responseJSON.errors, function(prefix, val) {
+                            $('div.' + 'error_' + prefix).text(val[0]);
+                        })
                     }
-                });
+                })
             })
 
             $(document).on('click', "button.edit-pasien", function(e) {
                 e.preventDefault();
                 const id = $(this).attr('data-id');
                 $.ajax({
-                    url: `pasien/${id}`,
+                    url: `detail/${id}`,
                     method: "get",
                     success: function(res) {
                         const pasien = Object.entries(res.data)
@@ -84,20 +106,18 @@
                         } = res.data
 
                         showModal({
-                            idName: 'backDropModal',
+                            idName: 'editModal',
                             title: 'Edit Data Pasien'
                         })
                         //set id to modal
-                        $("form#add-pasien").attr('action', `pasien/${id}/edit`)
+                        $("form#edit-pasien").attr('action', `detail/${id}`)
+
                         $.each(pasien, function(idx, val) {
                             const [key, value] = val;
-                            $('#' + key).val(value);
-                            if (key == 'no_kartu' || key == 'no_hp') {
-                                $('#' + key).attr('readonly', true);
-                            }
-                            if (typeof value == 'object' && value != null) {
-                                console.log(key, value)
-                            }
+                            const x = $('#' + key).val(value);
+                            const element = $('#editModal .modal-input#' + key);
+                            element.val(value);
+
                         })
                     },
                     error: function({
@@ -131,7 +151,7 @@
                             url: `detail/${id}`,
                             method: "delete",
                             success: function(res) {
-                                // reloadData()
+                                reloadData()
                                 toastr.success(res.message)
                             },
                             error: function({
@@ -170,6 +190,64 @@
                             $('div.' + 'error_' + prefix).text(val[0]);
                         })
                     }
+                })
+            })
+            $(document).on('click', "button.detail-pasien", function(e) {
+                e.preventDefault();
+                const id = $(this).attr('data-id-pasien');
+                $.ajax({
+                    url: `pasien/${id}/detail`,
+                    method: "get",
+                    success: function(res) {
+                        const pasien = Object.entries(res.data)
+                        showModal({
+                            idName: 'detailModal',
+                            title: 'Detail Data Pasien'
+                        })
+                        $.each(pasien, function(idx, val) {
+                            const [key, value] = val;
+                            const x = $('#' + key).val(value);
+                            const element = $('#detailModal .modal-input#' + key);
+                            element.val(value);
+
+                            if (typeof value == "object" && Array.isArray(value)) {
+                                // Loop melalui array pasien
+                                var detail = "";
+                                value.forEach(function(pasien, index) {
+                                    console.log(pasien)
+                                    // Buat elemen input untuk nama
+                                    var inputNama = "";
+                                    inputNama +=
+                                        '<input type="text" id="nama_' + index +
+                                        '" value="' + pasien.nama +
+                                        '" class="form-control">';
+
+                                    // Buat elemen input untuk tanggal lahir
+                                    var inputTanggalLahir = ""
+                                    inputTanggalLahir +=
+                                        '<input type="text" id="tgl_lahir_' +
+                                        index + '" value="' + pasien.tgl_lahir +
+                                        '" class="form-control">';
+
+                                    detail += `
+                                        <div class="d-flex">
+                                            ${inputNama}
+                                            ${inputTanggalLahir}
+                                        </div>
+                                        `;
+
+
+                                });
+                                $("#all-pasien").html(detail)
+                            }
+                        })
+                    },
+                    error: function({
+                        responseJSON,
+                        responseText
+                    }) {
+                        toastr.error(responseJSON.message)
+                    },
                 })
             })
         })

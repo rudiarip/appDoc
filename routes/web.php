@@ -22,6 +22,7 @@ Route::get('/', fn () =>  to_route('detail.index'));
 // Route::get('/pasien', [PasienController::class, 'index'])->name('pasien.index');
 Route::post('/pasien', [PasienController::class, 'store'])->name('pasien.store');
 Route::get('/pasien/{id}', [PasienController::class, 'show'])->name('pasien.show');
+Route::get('/pasien/{id}/detail', [PasienController::class, 'detail'])->name('pasien.detail');
 Route::post('/pasien/{id}/edit', [PasienController::class, 'update'])->name('pasien.update');
 Route::patch('/pasien/{id}', [PasienController::class, 'update']);
 Route::delete('/pasien/{id}', [PasienController::class, 'destroy'])->name('pasien.destroy');
@@ -42,6 +43,7 @@ Route::controller(PasienDetailController::class)
     ->as('detail.')
     ->group(function () {
         Route::get('pasien', 'index')->name('index');
+        Route::get('detail/{id}', 'show')->name('show');
         Route::get('detail/create', 'create')->name('create');
         Route::post('detail', 'store')->name('store');
         Route::get('detail/{id}/edit', 'edit')->name('edit');

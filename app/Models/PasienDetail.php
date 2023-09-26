@@ -20,6 +20,7 @@ class PasienDetail extends Model
         'tgl_lahir',
     ];
 
+
     public function pasien()
     {
         return $this->belongsTo(Pasien::class, 'id_pasien', 'id');
