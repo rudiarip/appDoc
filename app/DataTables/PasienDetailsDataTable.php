@@ -28,7 +28,7 @@ class PasienDetailsDataTable extends DataTable
             ->startsWithSearch()
             ->addIndexColumn()
             ->addColumn('action', fn ($row) =>  $this->addElement($row))
-            ->addColumn('nama', fn (PasienDetail $row) => $row["nama"])
+            ->addColumn('nama', fn ($row) => $row["nama"])
             ->addColumn('tgl_lahir', fn ($row) => $row->tgl_lahir)
             ->addColumn('no_kartu', fn ($row) => $row["no_kartu"])
             ->addColumn('alamat', fn ($row) => $row["alamat"])
@@ -79,18 +79,18 @@ class PasienDetailsDataTable extends DataTable
         return [
 
             // Column::make('id'),
-            Column::make('no_kartu'),
-            Column::make('nama'),
-            Column::make('alamat'),
-            Column::make('no_hp')->width(100),
-            Column::make('tgl_lahir')->width(100),
+            Column::make('no_kartu')->name("p.no_kartu"),
+            Column::make('nama')->name('pasien_details.nama'),
+            Column::make('alamat')->name('p.alamat'),
+            Column::make('no_hp')->width(100)->name("p.no_hp"),
+            Column::make('tgl_lahir')->width(100)->name('pasien_details.tgl_lahir'),
             // Column::make('created_at'),
             // Column::make('updated_at'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
-                ->addClass('text-center'),
+                ->addClass('text-center text-dark'),
         ];
     }
 
