@@ -42,6 +42,7 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/sneat/assets/js/config.js"></script>
+    <link rel="stylesheet" href="/toastr/toastr.min.css" />
 </head>
 
 <body>
@@ -90,8 +91,8 @@
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="/sneat/assets/vendor/libs/jquery/jquery.js"></script>
-    {{-- <script src="https://code.jquery.com/jquery-3.6.1.min.js" --}}
-    {{-- integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script> --}}
+    <script src="/toastr/toastr.min.js"></script>
+
     <script src="/sneat/assets/vendor/libs/popper/popper.js"></script>
     <script src="/sneat/assets/vendor/js/bootstrap.js"></script>
     <script src="/sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
@@ -111,6 +112,8 @@
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     @stack('datables')
+    <link rel="stylesheet" href="/datatables/datatables.css" />
+    <script src="/datatables/datatables.js"></script>
     <script>
         $.ajaxSetup({
             headers: {

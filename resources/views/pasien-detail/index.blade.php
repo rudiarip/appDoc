@@ -1,13 +1,6 @@
 @extends('layout.index')
 @section('title', 'Data Pasien')
 @section('content')
-    @push('datables')
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
-        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    @endpush
-
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Pasien</h4>
         <div class="row">
@@ -29,7 +22,7 @@
 @endsection
 @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/sweatalert/sweatalert.js"></script>
     <script>
         const reloadData = () => {
             window.LaravelDataTables["pasien-detail"].ajax.reload();

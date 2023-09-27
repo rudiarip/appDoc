@@ -1,10 +1,6 @@
 @extends('layout.index')
 @section('title', 'Data Pasien')
 @section('content')
-    @push('datables')
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    @endpush
     <div id="detailModal">
         <div class="" id="detail-pasien">
             @method('PUT')

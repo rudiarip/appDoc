@@ -1,10 +1,6 @@
 @extends('layout.index')
 @section('title', 'Data Pasien')
 @section('content')
-    @push('datables')
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
-        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
-    @endpush
 
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Pasien</h4>

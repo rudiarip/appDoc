@@ -1,4 +1,4 @@
-@extends('layout.index')
+{{-- @extends('layout.index')
 @section('title', 'Add New Pasien')
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -10,8 +10,6 @@
             <div class="col-xxl">
                 <div class="card mb-4">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                        {{-- <h5 class="mb-0">Basic Layout</h5> --}}
-                        {{-- <small class="text-muted float-end">Default label</small> --}}
                     </div>
                     <div class="card-body">
                         <form>
@@ -50,4 +48,4 @@
 
         </div>
     </div>
-@endsection
+@endsection --}}
