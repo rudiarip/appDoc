@@ -17,7 +17,7 @@
                     Data</button>
             </div>
         </div>
-        <div class="card-datatable pt-0">
+        <div class="card mt-2 p-2">
             {{ $dataTable->table() }}
         </div>
         <!--/ Basic Bootstrap Table -->

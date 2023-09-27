@@ -77,30 +77,46 @@
                         if (typeof value == "object" && Array.isArray(value)) {
                             // Loop melalui array pasien
                             var detail = "";
+
                             value.forEach(function(pasien, index) {
                                 detail += `
                                 <div class="row g-2 mb-2">
                                   <div class="col mb-0">
-
-                                    <label for="name" class="form-label">nama</label>
-                                      <input type="text" value="${pasien.nama}" id="name" class="form-control">
+                                      <input type="text" value="${pasien.nama}" id="name" class="form-control" readonly>
                                   </div>
                                   <div class="col mb-0">
-                                    <label for="tgl_lahir_" class="form-label">Tanggal Lahir</label>
-                                    <input type="text" value="${pasien.tgl_lahir}" id="tgl_lahir_" class="form-control" placeholder="DD / MM / YY">
+                                    <input type="text" value="${pasien.tgl_lahir}" id="tgl_lahir" class="form-control" placeholder="DD / MM / YY" readonly>
                                   </div>
                                 </div>
                                 `
                             });
-                            $("#all-pasien").html(detail)
+                            const header = `
+                            <div class="row g-2">
+                                <div class="col mb-0">
+                                    <label for="name" class="form-label">nama</label>
+                                    </div>
+                                <div class="col mb-0">
+                                        <label for="tgl_lahir" class="form-label">Tanggal Lahir</label>
+                                </div>
+                            </div>
+                            `
+                            $("#all-pasien").html(header + detail)
                         }
                     })
                 },
-                error: function({
+                error({
                     responseJSON,
-                    responseText
+                    responseText,
+                    status
                 }) {
-                    toastr.error(responseJSON.message)
+                    toastr.error(responseJSON.message, {
+                        timeOut: 1500,
+                        progressBar: true,
+
+                    })
+                    setTimeout(() => {
+                        window.location.href = "{{ route('detail.index') }}"
+                    }, 1500)
                 },
             })
         }
@@ -119,6 +135,8 @@
                     $(e.target).find("div.error-text").text("");
                 },
                 success: function(res) {
+                    getDetail()
+                    $("#backDropModal").modal("hide")
                     $(e.target)[0].reset();
                     toastr.success(res.message)
                 },

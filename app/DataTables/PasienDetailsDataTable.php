@@ -55,6 +55,7 @@ class PasienDetailsDataTable extends DataTable
     {
         return $this->builder()
             ->setTableId('pasien-detail')
+            // ->setTableAttributes()
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')

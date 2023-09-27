@@ -9,14 +9,15 @@
                 <div class="row">
                     <div class="col mb-3">
                         <label for="nama" class="form-label">Nama</label>
-                        <input type="text" id="nama" class="form-control" placeholder="Enter Nama">
+                        <input type="text" id="nama" name="nama" class="form-control"
+                            placeholder="Enter Nama">
                         <div id="defaultFormControlHelp" class="form-text text-danger text-error error_nama"></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col mb-3">
                         <label for="tgl_lahir" class="form-label">Tangaal Lahir</label>
-                        <input type="date" id="tgl_lahir" class="form-control">
+                        <input type="date" id="tgl_lahir" name="tgl_lahir" class="form-control">
                         <div id="defaultFormControlHelp" class="form-text text-danger text-error error_tgl_lahir"></div>
                     </div>
                 </div>
