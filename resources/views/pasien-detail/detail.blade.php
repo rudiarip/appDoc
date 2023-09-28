@@ -6,7 +6,7 @@
             @method('PUT')
             <div class="modal-header">
                 <h5 class="modal-title" id="detailModalTitle">Detail Data Pasien</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -54,7 +54,7 @@
     @include('pasien-detail.modal.add-new-pasien')
 @endsection
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
     <script>
         function getDetail() {
             const url = '{{ route('pasien.show', request()->id) }}';

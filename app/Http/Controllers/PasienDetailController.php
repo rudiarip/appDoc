@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
+use App\Response\ResponseStatus;
 
 class PasienDetailController extends Controller
 {
@@ -28,12 +29,10 @@ class PasienDetailController extends Controller
             ],
         );
         if ($validate->fails()) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $validate->errors()->toArray(),
-                'message' => 'payload is not suitable',
-                'code' => 422
-            ], 422);
+            return ResponseStatus::unprocessContent(
+                "payload is not suitable",
+                $validate->errors()->toArray()
+            );
         }
 
         $pasien_detail = $pasien->pasienDetail()->create([
@@ -42,42 +41,25 @@ class PasienDetailController extends Controller
         ]);
 
         if ($pasien_detail) {
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data berhasil ditambahkan',
-                'code' => 201
-            ], 201);
+            return ResponseStatus::successCreated("Data berhasil ditambahkan");
         }
-        return response()->json([
-            'status' => 'fail',
-            'message' => 'Internal Server Error',
-            'code' => 500
-        ], 500);
+        return ResponseStatus::internalError("Internal Server Error");
     }
 
     public function show($id)
     {
         $pasien_detail = PasienDetail::find($id);
         if (!$pasien_detail) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Data tidak ditemukan'
-            ], 404);
+            return ResponseStatus::notFound("Data tidak ditemukan");
         }
         $pasien = Pasien::find($pasien_detail->id_pasien);
         if (!$pasien) {
-            return response()->json([
-                'status' => 'fail',
-                'data' => "Something went wrong",
-            ], 500);
+            return ResponseStatus::internalError("Internal Server Error");
         }
         $pasien_detail["alamat"] = $pasien->alamat;
         $pasien_detail["no_kartu"] = $pasien->no_kartu;
         $pasien_detail["no_hp"] = $pasien->no_hp;
-        return response()->json([
-            'status' => 'success',
-            'data' => $pasien_detail,
-        ]);
+        return ResponseStatus::successResponse($pasien_detail);
     }
 
 
@@ -85,11 +67,7 @@ class PasienDetailController extends Controller
     {
         $pasien_detail = PasienDetail::find($id);
         if (!$pasien_detail) {
-            return response()->json([
-                "status"  => "fail",
-                "message" => "Data tidak ditemukan",
-                "code"    => 404
-            ], 404);
+            return ResponseStatus::notFound("Data tidak ditemukan");
         }
 
         $detailPayload = [
@@ -104,29 +82,17 @@ class PasienDetailController extends Controller
         ];
         $pasien = Pasien::find($pasien_detail["id_pasien"])
             ->update($pasienPayload);
-        return response()->json([
-            "status"  => "success",
-            "message" => "Data di update",
-            "code"    => 200,
-        ]);
+        return ResponseStatus::successMessage("Data di update");
     }
     public function destroy($id)
     {
         $pasien = PasienDetail::find($id);
 
         if (!$pasien) {
-            return response()->json([
-                "status"  => "fail",
-                "message" => "Data tidak ditemukan",
-                "code"    => 404
-            ], 404);
+            return ResponseStatus::notFound("Data tidak ditemukan");
         }
         $pasien->delete();
-        return response()->json([
-            "status"  => "success",
-            "message" => "Data berhasil dihapus",
-            "code"    => 200
-        ], 200);
+        return ResponseStatus::successMessage("Data berhasil dihapus");
     }
 
     public function viewDetail($id)

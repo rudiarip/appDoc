@@ -2,22 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\PasiensDataTable;
 use Illuminate\Http\Request;
 use App\Models\Pasien;
-use App\Models\PasienDetail;
 use Illuminate\Support\Facades\Validator;
+use App\Response\ResponseStatus;
 
 class PasienController extends Controller
 {
-    // public function index(PasiensDataTable $dataTables)
-    // {
-    //     return $dataTables->render("pasien.index");
-    // }
-
-    public function addNew(Request $request)
-    {
-    }
     public function store(Request $request)
     {
         $validate = Validator::make(
@@ -31,12 +22,10 @@ class PasienController extends Controller
             ],
         );
         if ($validate->fails()) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $validate->errors()->toArray(),
-                'message' => 'Data gagal ditambahkan',
-                'code' => 422
-            ], 422);
+            return ResponseStatus::unprocessContent(
+                "payload is not suitable",
+                $validate->errors()->toArray()
+            );
         }
 
         $pasien = Pasien::create([
@@ -50,46 +39,26 @@ class PasienController extends Controller
         ]);
 
         if ($pasien && $pasien_detail) {
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data berhasil ditambahkan',
-                'code' => 201
-            ], 201);
+            return ResponseStatus::successCreated("Data berhasil ditambahkan");
         }
-        return response()->json([
-            'status' => 'fail',
-            'message' => 'Internal Server Error',
-            'code' => 500
-        ], 500);
+        return ResponseStatus::internalError("Internal Server Error");
     }
 
     public function show($id)
     {
         $pasien = Pasien::find($id);
         if (!$pasien) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Data tidak ditemukan'
-            ], 404);
+            return ResponseStatus::notFound("Data tidak ditemukan");
         }
-        return response()->json([
-            'status' => 'success',
-            'data' => $pasien,
-        ]);
+        return ResponseStatus::successResponse($pasien);
     }
     public function detail($id)
     {
         $pasien = Pasien::find($id);
         if (!$pasien) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Data tidak ditemukan'
-            ], 404);
+            return ResponseStatus::notFound("Data tidak ditemukan");
         }
-        return response()->json([
-            'status' => 'success',
-            'data' => $pasien,
-        ]);
+        return ResponseStatus::successResponse($pasien);
     }
 
     public function update(Request $request, $id)
@@ -102,10 +71,7 @@ class PasienController extends Controller
 
         $pasien = Pasien::findOrFail($id);
         if (!$pasien) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Data tidak ditemukan'
-            ], 404);
+            return ResponseStatus::notFound("Data tidak ditemukan");
         }
 
         $pasien->update([
@@ -113,27 +79,15 @@ class PasienController extends Controller
             'alamat' => $request->alamat,
             'no_hp' => $request->no_hp,
         ]);
-
-        return response()->json([
-            'message' => 'Data berhasil diperbarui'
-        ]);
+        return ResponseStatus::successMessage("Data berhasil diperbarui");
     }
 
     public function destroy($id)
     {
 
         $pasien = Pasien::findOrFail($id);
-        return response()->json([
-            'status' => 'fail',
-            'message' => 'Data tidak ditemukan'
-        ], 404);
-        if (!$pasien) {
-        }
-
+        if (!$pasien) return ResponseStatus::notFound("Data tidak ditemukan");
         $pasien->delete();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Data berhasil dihapus'
-        ], 200);
+        return ResponseStatus::successMessage("Data berhasil dihapus");
     }
 }
