@@ -84,6 +84,7 @@ class PasienDetailController extends Controller
             ],
             [
                 '*.required' => 'Masukkan nilai untuk :attribute',
+                'no_kartu.unique' => 'No Kartu sudah pernah ditambahkan sebelumnya'
             ]
         );
         if ($validate->fails()) {

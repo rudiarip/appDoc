@@ -38,8 +38,9 @@
                 <div class="row justify-content-end mb-3">
                     <div class="col ms-auto">
 
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#backDropModal">add
-                            new</button>
+                        <button class="btn add-new-pasien btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#backDropModal">
+                            Tambah Detail Pasien</button>
                     </div>
                 </div>
 
@@ -118,6 +119,13 @@
         }
         getDetail()
 
+        $("button.add-new-pasien").on('click', function(e) {
+            e.preventDefault();
+            $("form#add-new-pasien").find("div.text-error").text("");
+        })
+
+        console.error = () => {}
+        console.warn = () => {}
         $("#add-new-pasien").on('submit', function(e) {
             e.preventDefault();
             $.ajax({
@@ -128,7 +136,7 @@
                 dataType: 'json',
                 data: new FormData(e.target),
                 beforeSend: function(res) {
-                    $(e.target).find("div.error-text").text("");
+                    $(e.target).find("div.text-error").text("");
                 },
                 success: function(res) {
                     getDetail()
