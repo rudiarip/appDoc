@@ -24,18 +24,24 @@ class PasienDetailsDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))
-            ->startsWithSearch()
-            ->addIndexColumn()
-            ->addColumn('action', fn ($row) =>  $this->addElement($row))
-            ->addColumn('nama', fn ($row) => $row["nama"])
-            ->addColumn('tgl_lahir', fn ($row) => $row->tgl_lahir)
-            ->addColumn('no_kartu', fn ($row) => $row["no_kartu"])
-            ->addColumn('alamat', fn ($row) => $row["alamat"])
-            ->addColumn('no_hp', fn ($row) => $row["no_hp"])
-            ->rawColumns(['alamat', 'no_kartu', 'no_hp', 'action'])
-            ->setRowAttr(["class" => "text-dark h6"])
-            ->setRowId('id');
+        $dataTable = (new EloquentDataTable($query))
+        ->addIndexColumn()
+        ->addColumn('action', fn($row) => $this->addElement($row))
+        ->addColumn('nama', fn($row) => $row["nama"])
+        ->addColumn('tgl_lahir', fn($row) => $row->tgl_lahir)
+        ->addColumn('no_kartu', fn($row) => $row["no_kartu"])
+        ->addColumn('alamat', fn($row) => $row["alamat"])
+        ->addColumn('no_hp', fn($row) => $row["no_hp"])
+        ->rawColumns(['alamat', 'no_kartu', 'no_hp', 'action'])
+        ->setRowAttr(["class" => "text-dark h6"])
+        ->setRowId('id');
+
+    // Customize the search behavior for the 'nama' column
+    $dataTable->filterColumn('nama', function ($query, $keyword) {
+        $query->where('nama', 'LIKE', '%' . $keyword . '%'); // Adjust the search criteria as needed
+    });
+
+    return $dataTable;
     }
 
     /**
@@ -43,9 +49,26 @@ class PasienDetailsDataTable extends DataTable
      */
     public function query(PasienDetail $model): QueryBuilder
     {
-        return $model->newQuery()
+        $query = $model->newQuery()
             ->leftJoin('pasiens as p', 'p.id', '=', 'pasien_details.id_pasien')
             ->select('p.*', 'pasien_details.nama', 'pasien_details.tgl_lahir', 'pasien_details.id as id_detail');
+
+        return $this->applyScopes($query); // This line applies any DataTables specific scopes
+
+        // Additional custom search logic
+        $searchValue = $this->request->input('search.value');
+
+        if (!empty($searchValue)) {
+            $query->where(function ($q) use ($searchValue) {
+                $q->where('nama', 'like', '%' . $searchValue . '%')
+                  ->orWhere('alamat', 'like', '%' . $searchValue . '%')
+                  ->orWhere('no_kartu', 'like', '%' . $searchValue . '%')
+                  ->orWhere('no_hp', 'like', '%' . $searchValue . '%');
+            });
+        }
+
+        return $query;
+    
     }
 
     /**

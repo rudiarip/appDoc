@@ -28,6 +28,11 @@ class PasienController extends Controller
             );
         }
 
+        $pasienExist = Pasien::find($request->no_kartu);
+        if($pasienExist){
+            return ResponseStatus::internalError("No_kartu already exist");
+        }
+
         $pasien = Pasien::create([
             'no_kartu' => $request->no_kartu,
             'alamat' => $request->alamat,
