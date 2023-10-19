@@ -24,24 +24,24 @@ class PasienDetailsDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $dataTable = (new EloquentDataTable($query))
-        ->addIndexColumn()
-        ->addColumn('action', fn($row) => $this->addElement($row))
-        ->addColumn('nama', fn($row) => $row["nama"])
-        ->addColumn('tgl_lahir', fn($row) => $row->tgl_lahir)
-        ->addColumn('no_kartu', fn($row) => $row["no_kartu"])
-        ->addColumn('alamat', fn($row) => $row["alamat"])
-        ->addColumn('no_hp', fn($row) => $row["no_hp"])
-        ->rawColumns(['alamat', 'no_kartu', 'no_hp', 'action'])
-        ->setRowAttr(["class" => "text-dark h6"])
-        ->setRowId('id');
+            $dataTable = (new EloquentDataTable($query))
+            ->addIndexColumn()
+            ->addColumn('action', fn($row) => $this->addElement($row))
+            ->addColumn('nama', fn($row) => $row["nama"])
+            ->addColumn('tgl_lahir', fn($row) => $row->tgl_lahir)
+            ->addColumn('no_kartu', fn($row) => $row["no_kartu"])
+            ->addColumn('alamat', fn($row) => $row["alamat"])
+            ->addColumn('no_hp', fn($row) => $row["no_hp"])
+            ->rawColumns(['alamat', 'no_kartu', 'no_hp', 'action'])
+            ->setRowAttr(["class" => "text-dark h6"])
+            ->setRowId('id');
 
-    // Customize the search behavior for the 'nama' column
-    $dataTable->filterColumn('nama', function ($query, $keyword) {
-        $query->where('nama', 'LIKE', '%' . $keyword . '%'); // Adjust the search criteria as needed
-    });
+        // Customize the search behavior for the 'nama' column
+        $dataTable->filterColumn('nama', function ($query, $keyword) {
+            $query->where('nama', 'LIKE', '%' . $keyword . '%'); // Adjust the search criteria as needed
+        });
 
-    return $dataTable;
+        return $dataTable;
     }
 
     /**
