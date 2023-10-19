@@ -70,6 +70,27 @@ class PasienDetailController extends Controller
             return ResponseStatus::notFound("Data tidak ditemukan");
         }
 
+        $validate = Validator::make(
+            $request->only(['no_kartu', 'alamat', 'no_hp', 'nama', 'tgl_lahir']),
+            [
+                'no_kartu' => 'required',
+                'no_hp' => 'required',
+                'alamat' => 'required',
+                'nama' => 'required',
+                'tgl_lahir' => 'required',
+            ],
+            [
+                '*.required' => 'Masukkan nilai untuk :attribute',
+            ]
+        );
+        if ($validate->fails()) {
+            return ResponseStatus::unprocessContent(
+                "payload is not suitable",
+                $validate->errors()->toArray()
+            );
+        }
+
+
         $detailPayload = [
             "nama" => $request->nama,
             "tgl_lahir" => $request->tgl_lahir,

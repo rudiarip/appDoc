@@ -12,7 +12,7 @@
                         <label for="nama" class="form-label">Nama</label>
                         <input type="text" id="nama" name="nama" class="form-control modal-input"
                             placeholder="Enter Nama">
-                        <div id="defaultFormControlHelp" class="form-text text-danger text-error error_no_kartu"></div>
+                        <div id="defaultFormControlHelp" class="form-text text-danger text-error error_nama"></div>
 
                     </div>
                 </div>
@@ -21,7 +21,7 @@
                         <label for="tgl_lahir" class="form-label">Tgl lahir</label>
                         <input type="text" id="tgl_lahir" name="tgl_lahir" class="form-control modal-input"
                             placeholder="Enter tgl lahir">
-                        <div id="defaultFormControlHelp" class="form-text text-danger text-error error_no_kartu"></div>
+                        <div id="defaultFormControlHelp" class="form-text text-danger text-error error_tgl_lahir"></div>
 
                     </div>
                 </div>

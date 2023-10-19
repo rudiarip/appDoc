@@ -11,4 +11,5 @@ enum CodeStatus: int
   case UNPROCESSABLE_CONTENT = 422;
   case BAD_REQUEST = 400;
   case INTERNAL_ERROR = 500;
+  case CONFLICT_ERROR = 409;
 }

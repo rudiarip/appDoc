@@ -14,12 +14,16 @@ class PasienController extends Controller
         $validate = Validator::make(
             $request->only(['no_kartu', 'alamat', 'no_hp', 'nama', 'tgl_lahir']),
             [
-                'no_kartu' => 'required',
+                'no_kartu' => 'required|unique:pasiens,no_kartu',
                 'no_hp' => 'required',
                 'alamat' => 'required',
                 'nama' => 'required',
                 'tgl_lahir' => 'required',
             ],
+            [
+                '*.required' => 'Masukkan nilai untuk :attribute',
+                'no_kartu.unique' => 'No kartu sudah pernah ditambahkan',
+            ]
         );
         if ($validate->fails()) {
             return ResponseStatus::unprocessContent(
@@ -27,12 +31,6 @@ class PasienController extends Controller
                 $validate->errors()->toArray()
             );
         }
-
-        $pasienExist = Pasien::find($request->no_kartu);
-        if($pasienExist){
-            return ResponseStatus::internalError("No_kartu already exist");
-        }
-
         $pasien = Pasien::create([
             'no_kartu' => $request->no_kartu,
             'alamat' => $request->alamat,

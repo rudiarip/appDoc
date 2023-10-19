@@ -64,4 +64,11 @@ class ResponseStatus
       "message" => $message,
     ], CodeStatus::BAD_REQUEST->value);
   }
+  public static function conflictResponse(string $message): JsonResponse
+  {
+    return response()->json([
+      "status" => "fail",
+      "message" => $message,
+    ], CodeStatus::CONFLICT_ERROR->value);
+  }
 }

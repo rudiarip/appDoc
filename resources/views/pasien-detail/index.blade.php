@@ -6,8 +6,7 @@
         <div class="row">
             <div class="col-2">
                 <button type="button" id="open-modal" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#backDropModal">Add
-                    Data</button>
+                    data-bs-target="#addPasienModal">Tambah Data</button>
             </div>
         </div>
         <div class="card mt-2 p-2">
@@ -38,8 +37,8 @@
             if (title) {
                 modal.find('.modal-title').text(title)
             }
-            // $(modal).find("span.error-text").text("");
-
+            $(modal).find("div.text-error").text("");
+            console.log(modal)
             return modal
         }
 
@@ -55,6 +54,7 @@
                 const form = $(targetModal + " " + 'form')
                 form[0].reset();
                 const formInputs = $(form).find('input');
+                $(form).find("div.text-error").text("");
             })
 
             $("form#edit-pasien").on('submit', function(e) {
@@ -67,7 +67,7 @@
                     dataType: 'json',
                     data: new FormData(e.target),
                     beforeSend: function(res) {
-                        $(e.target).find("span.error-text").text("");
+                        $(e.target).find("div.text-error").text("");
                     },
                     success: function(res) {
                         $(e.target)[0].reset();
@@ -88,6 +88,7 @@
 
             $(document).on('click', "button.edit-pasien", function(e) {
                 e.preventDefault();
+
                 const id = $(this).attr('data-id');
                 $.ajax({
                     url: `detail/${id}`,
@@ -159,6 +160,7 @@
 
             })
             $("#add-pasien").on('submit', function(e) {
+
                 e.preventDefault();
                 $.ajax({
                     url: $(this).attr('action'),
@@ -168,7 +170,7 @@
                     dataType: 'json',
                     data: new FormData(e.target),
                     beforeSend: function(res) {
-                        $(e.target).find("span.error-text").text("");
+                        $(e.target).find("div.text-error").text("");
                     },
                     success: function(res) {
                         $(e.target)[0].reset();

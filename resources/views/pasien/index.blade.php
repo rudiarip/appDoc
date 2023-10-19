@@ -7,8 +7,8 @@
         <div class="row">
             <div class="col-2">
 
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#backDropModal">Add
-                    Data</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#backDropModal">
+                    Tambah Data</button>
             </div>
         </div>
         <div class="card-datatable pt-0">
@@ -22,7 +22,6 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-
 
             $("#add-pasien").on('submit', function(e) {
                 e.preventDefault();

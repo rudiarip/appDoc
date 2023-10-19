@@ -1,4 +1,4 @@
-<div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
+<div class="modal fade" id="addPasienModal" data-bs-backdrop="static" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <form class="modal-content" action="{{ route('pasien.store') }}" id="add-pasien" method="post">
             <div class="modal-header">
