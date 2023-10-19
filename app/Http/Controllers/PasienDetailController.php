@@ -8,6 +8,7 @@ use App\Models\Pasien;
 use App\Models\PasienDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 use App\Response\ResponseStatus;
@@ -70,10 +71,12 @@ class PasienDetailController extends Controller
             return ResponseStatus::notFound("Data tidak ditemukan");
         }
 
+
         $validate = Validator::make(
             $request->only(['no_kartu', 'alamat', 'no_hp', 'nama', 'tgl_lahir']),
             [
-                'no_kartu' => 'required',
+                // 'no_kartu' => 'required|unique:pasiens,no_kartu',
+                'no_kartu' => ['required', Rule::unique("pasiens", "no_kartu")->ignore($pasien_detail["id_pasien"], "id")],
                 'no_hp' => 'required',
                 'alamat' => 'required',
                 'nama' => 'required',
@@ -101,8 +104,7 @@ class PasienDetailController extends Controller
             "no_hp" => $request->no_hp,
             "alamat" => $request->alamat,
         ];
-        $pasien = Pasien::find($pasien_detail["id_pasien"])
-            ->update($pasienPayload);
+        $pasien = Pasien::find($pasien_detail["id_pasien"])->update($pasienPayload);
         return ResponseStatus::successMessage("Data di update");
     }
     public function destroy($id)
