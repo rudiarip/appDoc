@@ -38,7 +38,6 @@
                 modal.find('.modal-title').text(title)
             }
             $(modal).find("div.text-error").text("");
-            console.log(modal)
             return modal
         }
 
@@ -77,12 +76,18 @@
                     },
                     error: function({
                         responseJSON,
-                        responseText
+                        responseText,
+                        status
                     }) {
-                        $.each(responseJSON.errors, function(prefix, val) {
-                            $('div.' + 'error_' + prefix).text(val[0]);
-                        })
-                    }
+                        if (status === 404) {
+                            toastr.error(responseJSON.message)
+                        }
+                        if (status === 422) {
+                            $.each(responseJSON.errors, function(prefix, val) {
+                                $('div.' + 'error_' + prefix).text(val[0]);
+                            })
+                        }
+                    },
                 })
             })
 
